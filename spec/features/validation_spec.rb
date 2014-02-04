@@ -114,12 +114,32 @@ feature 'person#new' do
       Person.validates_length_of :name, {:maximum => 20}
       Person.validates_length_of :bio, {:maximum => 100}
     end
+    after do
+      Person._validators.clear
+    end
 
     scenario 'new form' do
       visit '/people/new'
 
       find('input#person_name')[:maxlength].should == '20'
       find('textarea#person_bio')[:maxlength].should == '100'
+    end
+  end
+
+  context 'with minlength validation' do
+    background do
+      Person.validates :name, :length => {:minimum => 20}
+      Person.validates :bio, :length => {:minimum => 100}
+    end
+    after do
+      Person._validators.clear
+    end
+
+    scenario 'new form' do
+      visit '/people/new'
+
+      find('input#person_name')['data-minlength'].should == '20'
+      find('textarea#person_bio')['data-minlength'].should == '100'
     end
   end
 end

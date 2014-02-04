@@ -35,6 +35,12 @@ module ActiveModel
         }.map {|v| v.options.slice(:maximum, :is)}.map(&:values).flatten.max
       end
 
+      def attribute_minlength(attribute)
+        current_validators.grep(LengthValidator).select {|v|
+          validator_match?(v) && v.attributes.include?(attribute.to_sym) && (v.options.keys & [:minimum, :is]).any? && (v.options.keys & [:if, :unless, :allow_nil, :allow_blank, :tokenizer]).empty?
+        }.map {|v| v.options.slice(:minimum, :is)}.map(&:values).flatten.min
+      end
+
       def attribute_max(attribute)
         current_validators.grep(NumericalityValidator).select {|v|
           validator_match?(v) && v.attributes.include?(attribute.to_sym) && (v.options.keys & [:less_than, :less_than_or_equal_to]).any? && (v.options.keys & [:if, :unless, :allow_nil, :allow_blank]).empty?
