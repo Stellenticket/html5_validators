@@ -48,7 +48,7 @@ module ActiveModel
       end
 
       def attribute_dependent_validation(attribute)
-        attribute.to_s.sub(/_confirmation$/, '').to_sym if attribute.to_s.end_with?('_confirmation')
+        "#{current_object.class.to_s.underscore}_#{attribute.to_s.sub(/_confirmation$/, '')}" if current_object && attribute.to_s.end_with?('_confirmation')
       end
     end
   end
