@@ -11,6 +11,12 @@ module Html5Validators
         @options["maxlength"] ||= object.attribute_maxlength(@method_name)
       end
     end
+
+    def inject_dependent_validation
+      if object.class.ancestors.include?(ActiveModel::Validations) && (object.auto_html5_validation != false) && (object.class.auto_html5_validation != false)
+        @options["data-dependent-validation"] ||= object.attribute_dependent_validation(@method_name)
+      end
+    end
   end
 end if ActionPack::VERSION::STRING >= '4'
 
@@ -35,6 +41,7 @@ module ActionView
           def render_with_html5_attributes
             inject_required_field
             inject_maxlength_field
+            inject_dependent_validation
 
             if object.class.ancestors.include?(ActiveModel::Validations) && (object.auto_html5_validation != false) && (object.class.auto_html5_validation != false)
               @options["max"] ||= object.attribute_max(@method_name)

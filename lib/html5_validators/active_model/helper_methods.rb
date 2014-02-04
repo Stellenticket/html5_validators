@@ -46,6 +46,10 @@ module ActiveModel
           validator_match?(v) && v.attributes.include?(attribute.to_sym) && (v.options.keys & [:greater_than, :greater_than_or_equal_to]).any? && (v.options.keys & [:if, :unless, :allow_nil, :allow_blank]).empty?
         }.map {|v| v.options.slice(:greater_than, :greater_than_or_equal_to)}.map(&:values).flatten.min
       end
+
+      def attribute_dependent_validation(attribute)
+        attribute.to_s.sub(/_confirmation$/, '').to_sym if attribute.to_s.end_with?('_confirmation')
+      end
     end
   end
 end
