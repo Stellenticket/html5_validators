@@ -90,6 +90,8 @@ feature 'person#new' do
 
       find('input#person_name')[:required].should == 'required'
       find('input#person_name_confirmation')[:required].should == 'required'
+
+      find('input#person_name_confirmation')['data-dependent-validation'].should == 'person_name'
     end
   end
 
@@ -106,6 +108,8 @@ feature 'person#new' do
 
       find('input#person_name')[:required].should be_nil
       find('input#person_name_confirmation')[:required].should be_nil
+
+      find('input#person_name_confirmation')['data-dependent-validation'].should == 'person_name'
     end
   end
 
