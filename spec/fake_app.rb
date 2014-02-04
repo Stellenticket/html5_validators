@@ -72,7 +72,7 @@ ERB
   private
 
     def create_person
-        Person.create(:name => 'Name', :bio => 'Bio')
+        Person.create!(:name => 'Name', :bio => 'Bio')
     end
 end
 

@@ -16,3 +16,12 @@ RSpec.configure do |config|
     CreateAllTables.up unless ActiveRecord::Base.connection.table_exists? 'people'
   end
 end
+
+def clear_validators
+    Person._validators.clear
+    Person._validate_callbacks.clear
+end
+
+def clear_readonly
+    Person._attr_readonly.clear
+end

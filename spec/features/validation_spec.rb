@@ -20,7 +20,7 @@ feature 'person#new' do
       Person.validates_presence_of :name, :bio
     end
     after do
-      Person._validators.clear
+        clear_validators
     end
     scenario 'new form' do
       visit '/people/new'
@@ -59,7 +59,7 @@ feature 'person#new' do
       Person.validates_presence_of :bio, :on => :update
     end
     after do
-      Person._validators.clear
+        clear_validators
     end
 
     scenario 'new form' do
@@ -82,7 +82,7 @@ feature 'person#new' do
       Person.validates :name, presence: true, confirmation: true
     end
     after do
-      Person._validators.clear
+        clear_validators
     end
 
     scenario 'new form' do
@@ -100,7 +100,7 @@ feature 'person#new' do
       Person.validates :name, confirmation: true
     end
     after do
-      Person._validators.clear
+        clear_validators
     end
 
     scenario 'new form' do
@@ -119,7 +119,7 @@ feature 'person#new' do
       Person.validates_length_of :bio, {:maximum => 100}
     end
     after do
-      Person._validators.clear
+        clear_validators
     end
 
     scenario 'new form' do
@@ -136,7 +136,7 @@ feature 'person#new' do
       Person.validates :bio, :length => {:minimum => 100}
     end
     after do
-      Person._validators.clear
+        clear_validators
     end
 
     scenario 'new form' do
@@ -144,6 +144,27 @@ feature 'person#new' do
 
       find('input#person_name')['data-minlength'].should == '20'
       find('textarea#person_bio')['data-minlength'].should == '100'
+    end
+  end
+
+  context 'with readonly' do
+    background do
+      Person.attr_readonly :bio
+    end
+    after do
+        clear_readonly
+    end
+
+    scenario 'new form' do
+      visit '/people/new'
+
+      find('textarea#person_bio')[:readonly].should be_nil
+    end
+
+    scenario 'edit form' do
+      visit '/people/1/edit'
+
+      find('textarea#person_bio')[:readonly].should == 'readonly'
     end
   end
 end

@@ -29,6 +29,10 @@ module ActiveModel
         attribute.to_s.end_with?('_confirmation') && self.attribute_required?(attribute.to_s.sub(/_confirmation$/, '').to_sym) # hacky but works?
       end
 
+      def attribute_readonly?(attribute)
+          !current_object || !current_object.new_record? && current_object.class._attr_readonly.include?(attribute.to_s)
+      end
+
       def attribute_maxlength(attribute)
         current_validators.grep(LengthValidator).select {|v|
           validator_match?(v) && v.attributes.include?(attribute.to_sym) && (v.options.keys & [:maximum, :is]).any? && (v.options.keys & [:if, :unless]).empty?

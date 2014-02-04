@@ -3,8 +3,13 @@ module Html5Validators
     def validation_active?
       object.class.ancestors.include?(ActiveModel::Validations) && (object.auto_html5_validation != false) && (object.class.auto_html5_validation != false)
     end
+
     def inject_required_field
         @options["required"] ||= object.attribute_required?(@method_name) if validation_active?
+    end
+
+    def inject_readonly_field
+        @options["readonly"] ||= object.attribute_readonly?(@method_name) if validation_active?
     end
 
     def inject_maxlength_field
@@ -47,6 +52,7 @@ module ActionView
         class TextField
           def render_with_html5_attributes
             inject_required_field
+            inject_readonly_field
             inject_maxlength_field
             inject_dependent_validation
             inject_minlength_field
@@ -60,6 +66,7 @@ module ActionView
         class TextArea
           def render_with_html5_attributes
             inject_required_field
+            inject_readonly_field
             inject_maxlength_field
             inject_minlength_field
             inject_min_max
@@ -74,6 +81,8 @@ module ActionView
           kls.class_eval do
             def render_with_html5_attributes
               inject_required_field
+              inject_readonly_field
+
               render_without_html5_attributes
             end
             alias_method_chain :render, :html5_attributes
