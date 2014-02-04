@@ -16,6 +16,7 @@ app.routes.draw do
   resources :people, :only => [:new, :create, :edit, :show] do
     collection do
       get :new_without_html5_validation
+      get :new_with_confirmation
     end
   end
 end
@@ -52,6 +53,17 @@ ERB
     render :inline => <<-ERB
 <%= form_for @person, :auto_html5_validation => false do |f| %>
 <%= f.text_field :name %>
+<%= f.text_field :email %>
+<% end %>
+ERB
+  end
+
+  def new_with_confirmation
+    @person = Person.new
+    render :inline => <<-ERB
+<%= form_for @person do |f| %>
+<%= f.text_field :name %>
+<%= f.text_field :name_confirmation %>
 <%= f.text_field :email %>
 <% end %>
 ERB

@@ -53,9 +53,10 @@ feature 'person#new' do
     end
   end
 
-  context 'with required validation on create' do
+  context 'with required validation and :on option' do
     background do
       Person.validates_presence_of :name, :on => :create
+      Person.validates_presence_of :bio, :on => :update
     end
     after do
       Person._validators.clear
@@ -65,14 +66,49 @@ feature 'person#new' do
       visit '/people/new'
 
       find('input#person_name')[:required].should == 'required'
+      find('textarea#person_bio')[:required].should be_nil
     end
 
     scenario 'edit form' do
       visit '/people/1/edit'
 
       find('input#person_name')[:required].should be_nil
+      find('textarea#person_bio')[:required].should == 'required'
     end
   end
+
+  context 'with required validation and :confirmation option' do
+    background do
+      Person.validates :name, presence: true, confirmation: true
+    end
+    after do
+      Person._validators.clear
+    end
+
+    scenario 'new form' do
+      visit '/people/new_with_confirmation'
+
+      find('input#person_name')[:required].should == 'required'
+      find('input#person_name_confirmation')[:required].should == 'required'
+    end
+  end
+
+  context 'without required validation and with :confirmation option' do
+    background do
+      Person.validates :name, confirmation: true
+    end
+    after do
+      Person._validators.clear
+    end
+
+    scenario 'new form' do
+      visit '/people/new_with_confirmation'
+
+      find('input#person_name')[:required].should be_nil
+      find('input#person_name_confirmation')[:required].should be_nil
+    end
+  end
+
   context 'with maxlength validation' do
     background do
       Person.validates_length_of :name, {:maximum => 20}
