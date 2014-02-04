@@ -53,6 +53,26 @@ feature 'person#new' do
     end
   end
 
+  context 'with required validation on create' do
+    background do
+      Person.validates_presence_of :name, :on => :create
+    end
+    after do
+      Person._validators.clear
+    end
+
+    scenario 'new form' do
+      visit '/people/new'
+
+      find('input#person_name')[:required].should == 'required'
+    end
+
+    scenario 'edit form' do
+      visit '/people/1/edit'
+
+      find('input#person_name')[:required].should be_nil
+    end
+  end
   context 'with maxlength validation' do
     background do
       Person.validates_length_of :name, {:maximum => 20}

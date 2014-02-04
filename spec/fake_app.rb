@@ -13,7 +13,7 @@ app.initialize!
 
 # routes
 app.routes.draw do
-  resources :people, :only => [:new, :create] do
+  resources :people, :only => [:new, :create, :edit, :show] do
     collection do
       get :new_without_html5_validation
     end
@@ -37,6 +37,16 @@ class PeopleController < ApplicationController
 ERB
   end
 
+  def edit
+    @person = create_person
+    render :inline => <<-ERB
+<%= form_for @person do |f| %>
+<%= f.text_field :name %>
+<%= f.text_area :bio %>
+<% end %>
+ERB
+  end
+
   def new_without_html5_validation
     @person = Person.new
     render :inline => <<-ERB
@@ -46,6 +56,12 @@ ERB
 <% end %>
 ERB
   end
+
+  private
+
+    def create_person
+        Person.create(:name => 'Name', :bio => 'Bio')
+    end
 end
 
 # helpers
