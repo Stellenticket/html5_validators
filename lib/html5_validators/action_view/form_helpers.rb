@@ -79,7 +79,7 @@ module ActionView
             end
 
             #TODO probably I have to add some more classes here
-            [RadioButton, CheckBox, Select, DateSelect, TimeZoneSelect].each do |kls|
+            [RadioButton, CheckBox, Select, CollectionSelect, DateSelect, TimeZoneSelect].each do |kls|
                 kls.class_eval do
                     def render_with_html5_attributes
                         inject_required_field
