@@ -33,6 +33,7 @@ class PeopleController < ApplicationController
     render :inline => <<-ERB
 <%= form_for @person do |f| %>
 <%= f.text_field :name %>
+<%= f.select :gender, [['male', 1], ['female', 2]] %>
 <%= f.text_area :bio %>
 <% end %>
 ERB
@@ -43,6 +44,7 @@ ERB
     render :inline => <<-ERB
 <%= form_for @person do |f| %>
 <%= f.text_field :name %>
+<%= f.select :gender, [['male', 1], ['female', 2]] %>
 <%= f.text_area :bio %>
 <% end %>
 ERB
@@ -53,6 +55,7 @@ ERB
     render :inline => <<-ERB
 <%= form_for @person, :auto_html5_validation => false do |f| %>
 <%= f.text_field :name %>
+<%= f.select :gender, [['male', 1], ['female', 2]] %>
 <%= f.text_field :email %>
 <% end %>
 ERB
@@ -64,6 +67,7 @@ ERB
 <%= form_for @person do |f| %>
 <%= f.text_field :name %>
 <%= f.text_field :name_confirmation %>
+<%= f.select :gender, [['male', 1], ['female', 2]] %>
 <%= f.text_field :email %>
 <% end %>
 ERB
@@ -85,6 +89,7 @@ class CreateAllTables < ActiveRecord::Migration
     create_table :people do |t|
       t.string :name
       t.string :email
+      t.string :gender
       t.integer :age
       t.text :bio
     end

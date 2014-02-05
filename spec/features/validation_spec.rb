@@ -17,7 +17,7 @@ feature 'person#new' do
 
   context 'with required validation' do
     background do
-      Person.validates_presence_of :name, :bio
+      Person.validates_presence_of :name, :bio, :gender
     end
     after do
         clear_validators
@@ -26,6 +26,7 @@ feature 'person#new' do
       visit '/people/new'
 
       find('input#person_name')[:required].should == 'required'
+      find('select#person_gender')[:required].should == 'required'
       find('textarea#person_bio')[:required].should == 'required'
     end
     scenario 'new_without_html5_validation form' do

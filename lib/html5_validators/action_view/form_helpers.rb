@@ -4,30 +4,34 @@ module Html5Validators
             object.class.ancestors.include?(ActiveModel::Validations) && (object.auto_html5_validation != false) && (object.class.auto_html5_validation != false)
         end
 
+        def html_options
+            @html_options || @options
+        end
+
         def inject_required_field
-            @options["required"] ||= object.attribute_required?(@method_name) if validation_active?
+            html_options["required"] ||= object.attribute_required?(@method_name) if validation_active?
         end
 
         def inject_readonly_field
-            @options["readonly"] ||= object.attribute_readonly?(@method_name) if validation_active?
+            html_options["readonly"] ||= object.attribute_readonly?(@method_name) if validation_active?
         end
 
         def inject_maxlength_field
-            @options["maxlength"] ||= object.attribute_maxlength(@method_name) if validation_active?
+            html_options["maxlength"] ||= object.attribute_maxlength(@method_name) if validation_active?
         end
 
         def inject_minlength_field
-            @options["data-minlength"] ||= object.attribute_minlength(@method_name) if validation_active?
+            html_options["data-minlength"] ||= object.attribute_minlength(@method_name) if validation_active?
         end
 
         def inject_dependent_validation
-            @options["data-dependent-validation"] ||= object.attribute_dependent_validation(@method_name) if validation_active?
+            html_options["data-dependent-validation"] ||= object.attribute_dependent_validation(@method_name) if validation_active?
         end
 
         def inject_min_max
             return unless validation_active?
-            @options["max"] ||= object.attribute_max(@method_name)
-            @options["min"] ||= object.attribute_min(@method_name)
+            html_options["max"] ||= object.attribute_max(@method_name)
+            html_options["min"] ||= object.attribute_min(@method_name)
         end
     end
 end
