@@ -22,7 +22,7 @@ module Html5Validators
 
         def inject_minlength_field
             raise "Pattern already defined, cannot inject minlength pattern" unless html_options["pattern"].blank?
-            html_options["pattern"] ||= ".{#{object.attribute_minlength(@method_name)},}" if validation_active?
+            html_options["pattern"] ||= ".{#{object.attribute_minlength(@method_name)},}" if validation_active? and !object.attribute_minlength(@method_name).blank?
         end
 
         def inject_dependent_validation
