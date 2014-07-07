@@ -143,8 +143,8 @@ feature 'person#new' do
     scenario 'new form' do
       visit '/people/new'
 
-      find('input#person_name')['data-minlength'].should == '20'
-      find('textarea#person_bio')['data-minlength'].should == '100'
+      find('input#person_name')['pattern'].should == '.{20,}'
+      find('textarea#person_bio')['pattern'].should == '.{100,}'
     end
   end
 
