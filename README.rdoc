@@ -76,6 +76,10 @@ support for Rails < 4.1.
     <%= f.text_field :name %>
 
   HTML:
+    user.new_record? == true:
+    <input id="user_name" name="user[name]" type="text" />
+
+    user.new_record? == false:
     <input id="user_name" name="user[name]" readonly="readonly" type="text" />
 
 * And more (coming soon...?)
