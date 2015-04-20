@@ -20,7 +20,7 @@ feature 'person#new' do
       Person.validates_presence_of :name, :bio, :gender
     end
     after do
-        clear_validators
+      clear_validators
     end
     scenario 'new form' do
       visit '/people/new'
@@ -60,7 +60,7 @@ feature 'person#new' do
       Person.validates_presence_of :bio, :on => :update
     end
     after do
-        clear_validators
+      clear_validators
     end
 
     scenario 'new form' do
@@ -83,7 +83,7 @@ feature 'person#new' do
       Person.validates :name, presence: true, confirmation: true
     end
     after do
-        clear_validators
+      clear_validators
     end
 
     scenario 'new form' do
@@ -101,7 +101,7 @@ feature 'person#new' do
       Person.validates :name, confirmation: true
     end
     after do
-        clear_validators
+      clear_validators
     end
 
     scenario 'new form' do
@@ -120,7 +120,7 @@ feature 'person#new' do
       Person.validates_length_of :bio, {:maximum => 100}
     end
     after do
-        clear_validators
+      clear_validators
     end
 
     scenario 'new form' do
@@ -137,7 +137,7 @@ feature 'person#new' do
       Person.validates :bio, :length => {:minimum => 100}
     end
     after do
-        clear_validators
+      clear_validators
     end
 
     scenario 'new form' do
@@ -153,7 +153,7 @@ feature 'person#new' do
       Person.attr_readonly :bio
     end
     after do
-        clear_readonly
+      clear_readonly
     end
 
     scenario 'new form' do
@@ -166,6 +166,21 @@ feature 'person#new' do
       visit '/people/1/edit'
 
       find('textarea#person_bio')[:readonly].should == 'readonly'
+    end
+  end
+
+  context 'with required set in form' do
+    background do
+      Person.validates_presence_of :name, :email
+    end
+    after do
+      clear_validators
+    end
+
+    scenario 'it should not overwrite attributes' do
+      visit '/people/new_with_explicit_required'
+      page.should_not have_css('input#person_name[required=required]')
+      page.should_not have_css('input#person_email[required=required]')
     end
   end
 end
