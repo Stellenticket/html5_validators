@@ -16,9 +16,8 @@ support for Rails < 4.1.
 ===  PresenceValidator => required
 
   Model:
-    class User
-      include ActiveModel::Validations
-      validates_presence_of :name
+    class User < ActiveRecord::Base
+      validates :name, :presence => true
     end
 
   View:
