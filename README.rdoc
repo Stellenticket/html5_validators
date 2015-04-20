@@ -5,13 +5,15 @@ Automatic client-side validation using HTML5 Form Validation
 
 == What is this?
 
-html5_validators is a gem/plugin for Rails 3 that enables client-side validation using ActiveModel + HTML5.
+html5_validators is a gem/plugin for Rails 4+ that enables client-side validation using ActiveModel + HTML5.
 Once you bundle this gem on your app, the gem will automatically translate your model validation code into HTML5 validation attributes on every `form_for` invocation unless you explicitly cancel it.
 
+This fork includes some additional validators, fixes some quirks and drops
+support for Rails < 4.1.
 
 == Features
 
-===  PresenceValidator => requried
+===  PresenceValidator => required
 
   Model:
     class User
@@ -29,14 +31,11 @@ Once you bundle this gem on your app, the gem will automatically translate your 
   SPEC:
     http://dev.w3.org/html5/spec/Overview.html#attr-input-required
 
-http://img.skitch.com/20110517-8sagqrkjnmkinapmcc5tduy2b8.jpg
-
 ===  LengthValidator => maxlength
 
   Model:
-    class User
-      include ActiveModel::Validations
-      validates_length_of :name, :maximum => 10
+    class User < ActiveRecord::Base
+      validates :name, :length => { :maximum => 10 }
     end
 
   View:
@@ -52,9 +51,8 @@ http://img.skitch.com/20110517-8sagqrkjnmkinapmcc5tduy2b8.jpg
 ===  NumericalityValidator => max, min
 
   Model:
-    class User
-      include ActiveModel::Validations
-      validates_numericality_of :age, :greater_than_or_equal_to => 20
+    class User < ActiveRecord::Base
+      validates :age, :numericality => { :greater_than_or_equal_to => 20 }
     end
 
   View: (be sure to use number_field)
@@ -67,8 +65,18 @@ http://img.skitch.com/20110517-8sagqrkjnmkinapmcc5tduy2b8.jpg
     http://dev.w3.org/html5/spec/Overview.html#attr-input-max
     http://dev.w3.org/html5/spec/Overview.html#attr-input-min
 
-http://img.skitch.com/20110516-n3jhu5m4gan8iy1j8er1qb7yfa.jpg
+===  attr_readonly
 
+  Model:
+    class User < ActiveRecord::Base
+      attr_readonly :name
+    end
+
+  View:
+    <%= f.text_field :name %>
+
+  HTML:
+    <input id="user_name" name="user[name]" readonly="readonly" type="text" />
 
 * And more (coming soon...?)
 
@@ -120,7 +128,7 @@ Write `auto_html5_validation = false` in ActiveModelish class
 
 * Ruby 1.8.7, 1.9.2, 1.9.3, 2.0, 2.1, 2.2, 2.3 (trunk)
 
-* Rails 3.0.x, 3.1.x, 3.2.x, 4.0.x, 4.1, 4.2, 5.0 (edge)
+* Rails ~> 4.1
 
 * HTML5 compatible browsers
 
