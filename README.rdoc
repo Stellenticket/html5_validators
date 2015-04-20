@@ -81,6 +81,9 @@ support for Rails < 4.1.
     user.new_record? == false:
     <input id="user_name" name="user[name]" readonly="readonly" type="text" />
 
+  SPEC:
+    http://www.w3.org/TR/html5/forms.html#the-readonly-attribute
+
 * And more (coming soon...?)
 
 
