@@ -34,6 +34,11 @@ feature 'person#new' do
 
       find('input#person_name')[:required].should be_nil
     end
+    scenario 'new_with_required_true form' do
+      visit '/people/new_with_required_true'
+
+      find('input#person_email')[:required].should == 'required'
+    end
 
     context 'disabling html5_validation in class level' do
       background do
@@ -50,6 +55,21 @@ feature 'person#new' do
         visit '/people/new'
 
         find('input#person_name')[:required].should be_nil
+      end
+    end
+
+    context 'disabling html5_validations in gem' do
+      background do
+        Html5Validators.enabled = false
+      end
+      after do
+        Html5Validators.enabled = true
+      end
+      scenario 'new form' do
+        visit '/people/new'
+
+        find('input#person_name')[:required].should be_nil
+        find('textarea#person_bio')[:required].should be_nil
       end
     end
   end

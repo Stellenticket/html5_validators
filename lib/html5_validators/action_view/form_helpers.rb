@@ -58,9 +58,10 @@ module ActionView
   module Helpers
     module FormHelper
       def form_for_with_auto_html5_validation_option(record, options = {}, &proc)
-        if options[:auto_html5_validation] == false &&
-            record.respond_to?(:auto_html5_validation=)
-          record.auto_html5_validation = false
+        if record.respond_to?(:auto_html5_validation=)
+          if !Html5Validators.enabled || (options[:auto_html5_validation] == false)
+            record.auto_html5_validation = false
+          end
         end
         form_for_without_auto_html5_validation_option record, options, &proc
       end
@@ -81,6 +82,7 @@ module ActionView
             inject_dependent_validation
             inject_minlength_field
             inject_min_max
+
           end
 
           render_without_html5_attributes
@@ -109,18 +111,18 @@ module ActionView
        Select,
        CollectionSelect,
        DateSelect, TimeZoneSelect].each do |kls|
-        kls.class_eval do
-          def render_with_html5_attributes
-            if validation_active?
-              inject_required_field
-              inject_readonly_field
-            end
+         kls.class_eval do
+           def render_with_html5_attributes
+             if validation_active?
+               inject_required_field
+               inject_readonly_field
+             end
 
-            render_without_html5_attributes
-          end
-          alias_method_chain :render, :html5_attributes
-        end
-      end
+             render_without_html5_attributes
+           end
+           alias_method_chain :render, :html5_attributes
+         end
+       end
     end
   end
 end

@@ -18,6 +18,7 @@ app.routes.draw do
       get :new_without_html5_validation
       get :new_with_confirmation
       get :new_with_explicit_required
+      get :new_with_required_true
     end
   end
 end
@@ -82,6 +83,15 @@ ERB
 <%= f.text_field :email, 'required' => false %>
 <% end %>
 ERB
+  end
+
+  def new_with_required_true
+    @person = Person.new
+    render :inline => <<-ERB
+<%= form_for @person do |f| %>
+<%= f.text_field :email, :required => true %>
+<% end %>
+    ERB
   end
 
   private
