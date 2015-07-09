@@ -11,8 +11,7 @@ module Html5Validators
     end
 
     def html_option_exists?(option)
-      html_options.has_key?(option.to_sym) ||
-        html_options.has_key?(option.to_s.freeze)
+      html_options.key?(option.to_sym) || html_options.key?(option.to_s.freeze)
     end
 
     def inject_required_field
@@ -30,9 +29,16 @@ module Html5Validators
       html_options[:maxlength] = object.attribute_maxlength(@method_name)
     end
 
+    def inject_placeholder_asterix
+      return if !html_option_exists?(:placeholder) ||
+                !object.attribute_required?(@method_name) ||
+                html_options[:placeholder].blank?
+      html_options[:placeholder] = html_options[:placeholder].to_s + '*'
+    end
+
     def inject_minlength_field
       if html_option_exists?(:pattern)
-        raise "Pattern already defined, cannot inject minlength pattern"
+        fail 'Pattern already defined, cannot inject minlength pattern'
       end
 
       return if object.attribute_minlength(@method_name).blank?
@@ -82,7 +88,7 @@ module ActionView
             inject_dependent_validation
             inject_minlength_field
             inject_min_max
-
+            inject_placeholder_asterix
           end
 
           render_without_html5_attributes
@@ -98,6 +104,7 @@ module ActionView
             inject_maxlength_field
             inject_minlength_field
             inject_min_max
+            inject_placeholder_asterix
           end
 
           render_without_html5_attributes
@@ -105,7 +112,7 @@ module ActionView
         alias_method_chain :render, :html5_attributes
       end
 
-      #TODO probably I have to add some more classes here
+      # TODO: probably I have to add some more classes here
       [RadioButton,
        CheckBox,
        Select,

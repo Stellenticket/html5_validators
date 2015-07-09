@@ -28,6 +28,9 @@ feature 'person#new' do
       find('input#person_name')[:required].should == 'required'
       find('select#person_gender')[:required].should == 'required'
       find('textarea#person_bio')[:required].should == 'required'
+
+      find('input#person_name')[:placeholder].should == 'Name*'
+      find('textarea#person_bio')[:placeholder].should == nil
     end
     scenario 'new_without_html5_validation form' do
       visit '/people/new_without_html5_validation'

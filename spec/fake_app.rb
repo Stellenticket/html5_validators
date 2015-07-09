@@ -34,7 +34,7 @@ class PeopleController < ApplicationController
     @person = Person.new
     render :inline => <<-ERB
 <%= form_for @person do |f| %>
-<%= f.text_field :name %>
+<%= f.text_field :name, placeholder: :name %>
 <%= f.select :gender, [['male', 1], ['female', 2]] %>
 <%= f.text_area :bio %>
 <% end %>
