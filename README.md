@@ -172,7 +172,7 @@ end
 
 * Ruby 2.0, 2.1, 2.2
 
-* Rails 4.0.x, 4.1, 4.2
+* Rails 4.1, 4.2
 
 * HTML5 compatible browsers
 
