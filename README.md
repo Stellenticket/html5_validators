@@ -170,9 +170,9 @@ end
 
 ## Supported versions
 
-* Ruby 1.8.7, 1.9.2, 1.9.3, 2.0, 2.1, 2.2, 2.3 (trunk)
+* Ruby 2.0, 2.1, 2.2
 
-* Rails 3.0.x, 3.1.x, 3.2.x, 4.0.x, 4.1, 4.2, 5.0 (edge)
+* Rails 4.0.x, 4.1, 4.2
 
 * HTML5 compatible browsers
 
@@ -180,8 +180,9 @@ end
 ## Installation
 
 Put this line into your Gemfile:
+
 ```ruby
-gem 'html5_validators'
+gem 'html5_validators', github: 'Stellenticket/html5_validations'
 ```
 
 Then bundle:
@@ -201,4 +202,6 @@ will just be ignored.
 
 ## Copyright
 
-Copyright (c) 2011 Akira Matsuda. See MIT-LICENSE for further details.
+Copyright (c) 2011 Akira Matsuda.
+Copyright (c) 2015 MArkus Doits.
+See MIT-LICENSE for further details.
