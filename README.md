@@ -4,7 +4,7 @@ Automatic client-side validation using HTML5 Form Validation
 
 ## What is this?
 
-html5_validators is a gem/plugin for Rails 3+ that enables automatic client-side
+html5_validators is a gem/plugin for Rails 4.1+ that enables automatic client-side
 validation using ActiveModel + HTML5. Once you bundle this gem on your app,
 the gem will automatically translate your model validation code into HTML5
 validation attributes on every `form_for` invocation unless you explicitly
