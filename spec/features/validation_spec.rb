@@ -30,7 +30,7 @@ feature 'person#new' do
       find('textarea#person_bio')[:required].should == 'required'
 
       find('input#person_name')[:placeholder].downcase.should == 'name*'
-      find('textarea#person_bio')[:placeholder].should == nil
+      find('textarea#person_bio')[:placeholder].should.nil?
     end
     scenario 'new_without_html5_validation form' do
       visit '/people/new_without_html5_validation'
@@ -79,8 +79,8 @@ feature 'person#new' do
 
   context 'with required validation and :on option' do
     background do
-      Person.validates_presence_of :name, :on => :create
-      Person.validates_presence_of :bio, :on => :update
+      Person.validates_presence_of :name, on: :create
+      Person.validates_presence_of :bio, on: :update
     end
     after do
       clear_validators
@@ -139,8 +139,8 @@ feature 'person#new' do
 
   context 'with maxlength validation' do
     background do
-      Person.validates_length_of :name, {:maximum => 20}
-      Person.validates_length_of :bio, {:maximum => 100}
+      Person.validates_length_of :name, maximum: 20
+      Person.validates_length_of :bio, maximum: 100
     end
     after do
       clear_validators
@@ -156,8 +156,8 @@ feature 'person#new' do
 
   context 'with minlength validation' do
     background do
-      Person.validates :name, :length => {:minimum => 20}
-      Person.validates :bio, :length => {:minimum => 100}
+      Person.validates :name, length: { minimum: 20 }
+      Person.validates :bio, length: { minimum: 100 }
     end
     after do
       clear_validators

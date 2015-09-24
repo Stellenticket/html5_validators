@@ -8,7 +8,7 @@ require 'fake_app'
 require 'rspec/rails'
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
   if config.respond_to? :expect_with
@@ -22,10 +22,10 @@ RSpec.configure do |config|
 end
 
 def clear_validators
-    Person._validators.clear
-    Person._validate_callbacks.clear
+  Person._validators.clear
+  Person._validate_callbacks.clear
 end
 
 def clear_readonly
-    Person._attr_readonly.clear
+  Person._attr_readonly.clear
 end

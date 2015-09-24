@@ -12,7 +12,7 @@ module Html5Validators
   end
 
   class Railtie < ::Rails::Railtie #:nodoc:
-    initializer 'html5_validators' do |app|
+    initializer 'html5_validators' do |_app|
       ActiveSupport.on_load(:active_record) do
         require 'html5_validators/active_model/helper_methods'
         require 'html5_validators/active_model/validations'
