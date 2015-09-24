@@ -101,6 +101,86 @@ feature 'person#new' do
     end
   end
 
+  context 'with required validation and :if option with Proc' do
+    background do
+      Person.validates_presence_of :name, if: Proc.new { true }
+      Person.validates_presence_of :bio, if: Proc.new { false }
+    end
+    after do
+      clear_validators
+    end
+
+    scenario 'new form' do
+      visit '/people/new'
+
+      find('input#person_name')[:required].should == 'required'
+      find('textarea#person_bio')[:required].should be_nil
+
+      find('input#person_name')[:placeholder].downcase.should == 'name*'
+      find('textarea#person_bio')[:placeholder].should.nil?
+    end
+  end
+
+  context 'with required validation and :if option with symbol' do
+    background do
+      Person.validates_presence_of :name, if: :present?
+      Person.validates_presence_of :bio, if: :nil?
+    end
+    after do
+      clear_validators
+    end
+
+    scenario 'new form' do
+      visit '/people/new'
+
+      find('input#person_name')[:required].should == 'required'
+      find('textarea#person_bio')[:required].should be_nil
+
+      find('input#person_name')[:placeholder].downcase.should == 'name*'
+      find('textarea#person_bio')[:placeholder].should.nil?
+    end
+  end
+
+  context 'with required validation and :unless option with Proc' do
+    background do
+      Person.validates_presence_of :name, unless: Proc.new { false }
+      Person.validates_presence_of :bio, unless: Proc.new { true }
+    end
+    after do
+      clear_validators
+    end
+
+    scenario 'new form' do
+      visit '/people/new'
+
+      find('input#person_name')[:required].should == 'required'
+      find('textarea#person_bio')[:required].should be_nil
+
+      find('input#person_name')[:placeholder].downcase.should == 'name*'
+      find('textarea#person_bio')[:placeholder].should.nil?
+    end
+  end
+
+  context 'with required validation and :unless option with symbol' do
+    background do
+      Person.validates_presence_of :name, unless: :nil?
+      Person.validates_presence_of :bio, unless: :present?
+    end
+    after do
+      clear_validators
+    end
+
+    scenario 'new form' do
+      visit '/people/new'
+
+      find('input#person_name')[:required].should == 'required'
+      find('textarea#person_bio')[:required].should be_nil
+
+      find('input#person_name')[:placeholder].downcase.should == 'name*'
+      find('textarea#person_bio')[:placeholder].should.nil?
+    end
+  end
+
   context 'with required validation and :confirmation option' do
     background do
       Person.validates :name, presence: true, confirmation: true
