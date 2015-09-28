@@ -31,11 +31,16 @@ feature 'person#new' do
 
       find('input#person_name')[:placeholder].downcase.should == 'name*'
       find('textarea#person_bio')[:placeholder].should.nil?
+
+      find('select#person_gender option:first').text.should == 'Gender*'
     end
     scenario 'new_without_html5_validation form' do
       visit '/people/new_without_html5_validation'
 
       find('input#person_name')[:required].should be_nil
+      find('input#person_name')[:placeholder].downcase.should == 'name'
+
+      find('select#person_gender option:first').text.should == 'Gender'
     end
     scenario 'new_with_required_true form' do
       visit '/people/new_with_required_true'

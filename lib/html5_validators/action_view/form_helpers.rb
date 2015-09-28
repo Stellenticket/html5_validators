@@ -36,6 +36,12 @@ module Html5Validators
       html_options[:placeholder] = html_options[:placeholder].to_s + '*'
     end
 
+    def inject_prompt_asterix
+      return if @options[:prompt].blank? ||
+                !object.attribute_required?(@method_name)
+      @options[:prompt] = @options[:prompt].to_s + '*'
+    end
+
     def inject_minlength_field
       if html_option_exists?(:pattern)
         fail 'Pattern already defined, cannot inject minlength pattern'
@@ -112,12 +118,27 @@ module ActionView
         alias_method_chain :render, :html5_attributes
       end
 
+      [Select,
+       CollectionSelect].each do |kls|
+        kls.class_eval do
+          def render_with_html5_attributes
+            if validation_active?
+              inject_required_field
+              inject_readonly_field
+              inject_prompt_asterix
+            end
+
+            render_without_html5_attributes
+          end
+          alias_method_chain :render, :html5_attributes
+        end
+      end
+
       # TODO: probably I have to add some more classes here
       [RadioButton,
        CheckBox,
-       Select,
-       CollectionSelect,
-       DateSelect, TimeZoneSelect].each do |kls|
+       DateSelect,
+       TimeZoneSelect].each do |kls|
          kls.class_eval do
            def render_with_html5_attributes
              if validation_active?

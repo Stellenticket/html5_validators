@@ -35,7 +35,7 @@ class PeopleController < ApplicationController
     render inline: <<-ERB
 <%= form_for @person do |f| %>
 <%= f.text_field :name, placeholder: :name %>
-<%= f.select :gender, [['male', 1], ['female', 2]] %>
+<%= f.select :gender, [['male', 1], ['female', 2]], prompt: 'Gender' %>
 <%= f.text_area :bio %>
 <% end %>
 ERB
@@ -56,8 +56,8 @@ ERB
     @person = Person.new
     render inline: <<-ERB
 <%= form_for @person, :auto_html5_validation => false do |f| %>
-<%= f.text_field :name %>
-<%= f.select :gender, [['male', 1], ['female', 2]] %>
+<%= f.text_field :name, placeholder: :name %>
+<%= f.select :gender, [['male', 1], ['female', 2]], prompt: 'Gender' %>
 <%= f.text_field :email %>
 <% end %>
 ERB
